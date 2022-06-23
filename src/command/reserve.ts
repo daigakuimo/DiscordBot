@@ -1,4 +1,4 @@
-import { Message, Client, ApplicationCommandDataResolvable, CommandInteraction } from 'discord.js'
+import { Message, CommandInteraction } from 'discord.js'
 
 export enum ReserveTask {
   None = 1,
@@ -9,6 +9,7 @@ export enum ReserveTask {
   Repeat
 }
 
+// 予約投稿のデータ保持用連想入れつ
 interface ReservePostData {
   index: number,
   name: string,
@@ -37,14 +38,23 @@ export class Reserve {
   }
 
   public async StartReserveTask(interaction: CommandInteraction) {
-    this.ChangeNextTask()
-    console.log(this.task)
+    this.postData = {
+      index: 1,
+      name: "",
+      title: "",
+      content: "",
+      channel: "",
+      time: new Date('2008-5-1 2:00:00'),
+      repeat: "",
+    }
 
     const message =
       `タイトルを入力してね
     例：社交辞令`
 
     await interaction.reply(message)
+
+    this.ChangeNextTask()
   }
 
   public async RunReserveTask(message: Message) {

@@ -27,11 +27,8 @@ client.once('ready', async () => {
 client.on('messageCreate', async (message: Message) => {
   if (message.author.bot) return
   if (reserve.IsRunTask()) {
+    // 予約投稿のタスクが始まっていたらメッセージを受信
     reserve.RunReserveTask(message)
-  }
-
-  if (message.content.startsWith('!ping')) {
-    message.channel.send('Pong!')
   }
 })
 
@@ -40,6 +37,7 @@ client.on("interactionCreate", async (interaction) => {
     return;
   }
   if (interaction.commandName === 'reserve') {
+    // /reserveを受信したら予約投稿開始
     await reserve.StartReserveTask(interaction)
   }
 });
